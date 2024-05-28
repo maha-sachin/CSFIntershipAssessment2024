@@ -1,29 +1,24 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-require('dotenv').config();
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+require("dotenv").config();
+
+const cocktailRoutes = require("./routes/cocktailRoutes");
 
 const app = express();
+const PORT = process.env.PORT || 4000;
+const MONGO_URL = process.env.MONGO_URL;
 
-// Middleware
+app.use(cors());
+app.use(express.json());
 app.use(bodyParser.json());
 
-const PORT = process.env.PORT || 3000;
+mongoose
+  .connect(MONGO_URL)
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log('MongoDB connected')
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.use("/", cocktailRoutes);
 
-  })
-  .catch(err => console.error('MongoDB connection error:', err));
-
-// // Routes
-// const formRoutes = require('./routes/formRoutes');
-// app.use('/forms', formRoutes);
-
-app.get('/', (req, res)=>{
-    res.send("hello form")
-})
-
-
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
