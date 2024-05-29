@@ -8,7 +8,7 @@ const CocktailCard = ({
 }) => {
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
-    isFavorite ? removeFavorite(cocktail.idDrink) : addFavorite(cocktail.idDrink);
+    isFavorite ? removeFavorite(cocktail.idDrink) : addFavorite(cocktail);
   };
 
   return (

@@ -48,6 +48,19 @@ const SearchResults = () => {
     }
   };
 
+  const handleRemoveFavorite = async (idDrink) => {
+    try {
+      console.log("Removing favorite with idDrink:", idDrink);
+      await axios.delete(`http://localhost:4000/api/cocktails/favorites/${idDrink}`);
+      setFavorites((prevFavorites) =>
+        prevFavorites.filter((favorite) => favorite.idDrink !== idDrink)
+      );
+    } catch (err) {
+      console.error("Error removing favorite:", err);
+      setError("Failed to remove favorite. Please try again.");
+    }
+  };
+
   return (
     <div className="container mx-auto px-4">
       {loading && <p>Loading...</p>}
@@ -64,6 +77,7 @@ const SearchResults = () => {
                 (fav) => fav.idDrink === cocktail.idDrink
               )}
               addFavorite={handleAddFavorite}
+              removeFavorite={handleRemoveFavorite}
             />
           ))}
         </div>
